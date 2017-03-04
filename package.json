@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.15.0"
+    "express": "^4.15.0",
+    "firepad": "^1.4.0"
   }
 }
