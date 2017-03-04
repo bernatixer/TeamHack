@@ -19,7 +19,7 @@ $('#create').click(function (e) {
   getNewRef(sugID, function (created, tab) {
     var tabId = tab.key;
     newTab(tab);
-    $(this).closest('li').before('<li class="nav-item" id="' + tabId + '"><a href="#" class="nav-link active" data-toggle="tab">filename</a><span>x</span></li>');
+    $(this).closest('li').before('<li class="nav-item" id="' + tabId + '"><a href="#" class="nav-link active" data-toggle="tab">' + sugID + '</a><span>x</span></li>');
     $('.nav-tabs li:nth-child(' + id + ') a').click();
   });
 });
