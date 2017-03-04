@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="stylesheet" href="acemock.css">
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+
+    <!-- Ace -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/ace.js"></script>
+
+    <!-- Firepad -->
+    <link rel="stylesheet" href="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.css" />
+    <script src="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.min.js"></script>
+  </head>
+  <body>
+    <body onload="init()">
+  <div id="firepad"></div>
+  <script>
+    function init() {
+      // Initialize Firebase.
+      // TODO: replace with your Firebase project configuration.
+      var config = {
+        apiKey: "AIzaSyB8IH4q1aZtwjZS6liKEul_B0Ie3HouYmc",
+        authDomain: "teamhack-bd156.firebaseapp.com",
+        databaseURL: "https://teamhack-bd156.firebaseio.com",
+      };
+      firebase.initializeApp(config);
+
+      // Get Firebase Database reference.
+      var firepadRef = firebase.database().ref();
+
+      // Create Ace editor.
+      var editor = ace.edit('firepad');
+
+      // Create Firepad.
+      var firepad = Firepad.fromACE(firepadRef, editor);
+    }
+  </script>
+</body>
+  </body>
+</html>
