@@ -12,6 +12,7 @@
   "dependencies": {
     "express": "^4.15.0",
     "firepad": "^1.4.0",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "socket.io": "^1.7.3"
   }
 }

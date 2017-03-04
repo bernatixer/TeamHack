@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="mock.css">
+    <link rel="stylesheet" href="app.css">
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
 
@@ -62,18 +62,41 @@
                 </div>
             </nav>
             <main class="col-sm-9 editor">
-                <nav class="tabs">
+                <nav class="container">
                     <ul class="nav nav-tabs">
-                        <div class="tabs-container">
-                        </div>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" onclick="spawn()">+</a>
+                        <li id="def" class="nav-item"><a href="#" class="nav-link active" data-toggle="tab">filename</a><span>x</span>
+                        </li>
+                        <li class="nav-item"><a href="#" class="add nav-link" data-toggle="modal" data-target=".bd-example-modal-sm">+</a>
                         </li>
                     </ul>
                 </nav>
             </main>
         </div>
     </div>
+    <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Choose a filename</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon3">Filename</span>
+                        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="create" onclick="">Create file</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
     <script src="app.js" type="text/javascript"></script>
+    <script src="tabs.js" type="text/javascript"></script>
 </body>
 </html>
