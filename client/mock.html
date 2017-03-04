@@ -33,9 +33,9 @@
                     </a>
 
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" href="#">Berni</a>
-                        <a class="dropdown-item" href="#">Martí</a>
-                        <a class="dropdown-item" href="#">Arnau</a>
+                        <button class="dropdown-item" href="#">Berni</button>
+                        <button class="dropdown-item" href="#">Martí</button>
+                        <button class="dropdown-item" href="#">Arnau</button>
                     </div>
                 </div>
                 <div class="row chat-container">
@@ -53,7 +53,7 @@
                                 <div class="input-group">
                                     <input type="text" class="form-control" placeholder="Send..." aria-describedby="sizing-addon1"/>
                                     <span class="input-group-btn" id="sizing-addon1">
-                                        <button class="btn btn-secondary" type="button" onclick="send()">Send</button>
+                                        <button class="btn btn-secondary" type="button" onclick="send('Arnau')">Send</button>
                                     </span>
                                 </div>
                             </div>
@@ -64,21 +64,17 @@
             <main class="col-sm-9 editor">
                 <nav class="tabs">
                     <ul class="nav nav-tabs">
+                        <div class="tabs-container">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">Filename</a>
+                            </li>
+                        </div>
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">Active</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled" href="#">Disabled</a>
+                            <a class="nav-link" href="#" onclick="spawn()">+</a>
                         </li>
                     </ul>
                 </nav>
-                <div id="firepad-container"></div>
+                
             </main>
         </div>
     </div>

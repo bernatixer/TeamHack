@@ -1,3 +1,4 @@
+
 function init() {
   //// Initialize Firebase.
   var config = {
@@ -8,8 +9,10 @@ function init() {
   firebase.initializeApp(config);
   //// Get Firebase Database reference.
   var firepadRef = getExampleRef();
+  $('main').append('<div id="' + firepadRef.key + '"></div>');
   //// Create ACE
-  var editor = ace.edit("firepad-container");
+  var editor = ace.edit(firepadRef.key);
+  console.log(14231);
   editor.setTheme("ace/theme/textmate");
   var session = editor.getSession();
   session.setUseWrapMode(true);
@@ -17,9 +20,29 @@ function init() {
   session.setMode("ace/mode/javascript");
   //// Create Firepad.
   var firepad = Firepad.fromACE(firepadRef, editor, {
-    defaultText: '// Showing porno to meeee!!'
+    defaultText: '// Showi meeee!!'
   });
+  $('.powered-by-firepad').remove();
 }
+
+function spawn() {
+    //// Get Firebase Database reference.
+    var firepadRef = getExampleRef();
+    //// Create ACE
+    $('main').append('<div id="' + firepadRef.key + '"></div>');
+    var editor = ace.edit(firepadRef.key);
+    editor.setTheme("ace/theme/textmate");
+    var session = editor.getSession();
+    session.setUseWrapMode(true);
+    session.setUseWorker(false);
+    session.setMode("ace/mode/javascript");
+    //// Create Firepad.
+    var firepad = Firepad.fromACE(firepadRef, editor, {
+      defaultText: '// Sho to meeee!!'
+    });
+    $('.powered-by-firepad').remove();
+}
+
 // Helper to get hash from end of URL or generate a random one.
 function getExampleRef() {
   var ref = firebase.database().ref();
@@ -36,10 +59,14 @@ function getExampleRef() {
   return ref;
 }
 
-function send(){
+$(document).ready(function () {
+})
+
+
+function send(name){
     var message = $('.form-control').val();
     if (message != ''){
-        $('.chat-list').append('<li class="media"><img class="d-flex mr-3" src="" alt="' + 'Arnau' + '"><div class="media-body">' + message + '</div></li>');
+        $('.chat-list').append('<li class="media"><img class="d-flex mr-3" src="" alt="' + name + '"><div class="media-body">' + message + '</div></li>');
     }
     $('.form-control').val('');
 }
