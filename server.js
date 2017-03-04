@@ -1,10 +1,17 @@
 var express = require('express')
 var app = express()
 
+var bodyParser = require('body-parser');
+
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
 app.use(express.static('public'))
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/client/welcome.html');
@@ -14,7 +21,7 @@ app.get('/join', function (req, res) {
   res.sendFile(__dirname + '/client/app.html');
 })
 
-app.get('/create', function (req, res) {
+app.post('/create', function (req, res) {
   res.sendFile(__dirname + '/client/app.html');
 })
 
@@ -36,6 +43,15 @@ io.on('connection', function (socket) {
       socket.emit('receiveID', false, id);
     } else {
       socket.emit('receiveID', true, id);
+    }
+  });
+  socket.on('existsID', function (id) {
+    if (rooms.indexOf(id) == -1) {
+      // no existeix
+      socket.emit('resExistsID', false);
+    } else {
+      // si existeix
+      socket.emit('resExistsID', true);
     }
   });
 });

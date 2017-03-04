@@ -1,4 +1,6 @@
 var socket = io.connect('http://localhost');
+// problema 131
+var ip = 'http://localhost';
 
 function init() {
   //// Initialize Firebase.
@@ -8,10 +10,25 @@ function init() {
     databaseURL: "https://teamhack-bd156.firebaseio.com"
   };
   firebase.initializeApp(config);
+
+  var hash = window.location.hash.replace(/#/g, '');
+  socket.emit('existsID', hash);
+  socket.on('resExistsID', function (exists) {
+    if (exists) {
+      ref = firebase.database().ref();
+      hash = window.location.hash.replace(/#/g, '');
+      ref = ref.child(hash);
+      newTab(ref);
+    } else {
+      alert('no existeix!!!');
+      // window.location = ip;
+    }
+  });
 }
 
 function newTab(firepadRef) {
   //// Create ACEs
+  $('#'+firepadRef.key).remove();
   $('main').append('<div id="'+ firepadRef.key +'"></div>');
   var editor = ace.edit(firepadRef.key);
   editor.setTheme("ace/theme/textmate");
@@ -31,13 +48,17 @@ function getNewRef(requestedID, callback) {
   var ref = firebase.database().ref();
   var hash = window.location.hash.replace(/#/g, '');
   if (hash) {
-    // TODO: SI EXISTEIX EL 'hash' i es diferent que l'actual
-    // TODO: si exsiteix, obrir-lo
-    var str = window.location.toString();
-    window.location = str.substring(0, str.length - hash.length) + requestedID;
-    console.log(window.location)
-    ref = ref.child(hash);
-    callback(false, ref);
+    socket.emit('existsID', hash);
+    socket.on('resExistsID', function (exists) {
+      if (exists) {
+        // obrir
+        callback(false, ref);
+      } else {
+        alert('ARA SORTIRE');
+        window.location = ip;
+      }
+    });
+
     //ref = ref.push(); // generate unique location.
   } else {
     socket.emit('getID', requestedID);
@@ -55,7 +76,7 @@ function getNewRef(requestedID, callback) {
     });
   }
   if (typeof console !== 'undefined') {
-    console.log('Firebase data: ', ref.toString());
+    // console.log('Firebase data: ', ref.toString());
   }
 }
 
