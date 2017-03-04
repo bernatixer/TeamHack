@@ -11,10 +11,8 @@ function init() {
 }
 
 function newTab(firepadRef) {
-  //// Get Firebase Database reference.
-  $('.tabs-container').append('<li class="nav-item"><a class="nav-link active" href="#' + firepadRef.key + '">' + 'filename' + '</a></li>')
-  $('main').append('<div id="' + firepadRef.key + '"></div>');
-  //// Create ACE
+  //// Create ACEs
+  $('main').append('<div id="'+ firepadRef.key +'"></div>');
   var editor = ace.edit(firepadRef.key);
   editor.setTheme("ace/theme/textmate");
   var session = editor.getSession();
@@ -30,25 +28,28 @@ function newTab(firepadRef) {
 
 // Helper to get hash from end of URL or generate a random one.
 function getNewRef(requestedID, callback) {
-  console.log('a')
   var ref = firebase.database().ref();
   var hash = window.location.hash.replace(/#/g, '');
   if (hash) {
-    //ref = ref.child(hash);
+    // TODO: SI EXISTEIX EL 'hash' i es diferent que l'actual
+    // TODO: si exsiteix, obrir-lo
+    var str = window.location.toString();
+    window.location = str.substring(0, str.length - hash.length) + requestedID;
+    console.log(window.location)
+    ref = ref.child(hash);
     callback(false, ref);
     //ref = ref.push(); // generate unique location.
-    // window.location = window.location + '#' + ref.key; // add it as a hash to the URL.
   } else {
-    console.log('b')
-    socket.emit('getID', hash);
+    socket.emit('getID', requestedID);
     socket.on('receiveID', function (exists, newID) {
-      console.log('c')
       if (exists) {
         alert('Name already exsists');
         callback(false, ref);
       } else {
-        console.log('ID: ' + newID);
-        ref.key = newID;
+        window.location = window.location + '#' + requestedID;
+        ref = firebase.database().ref();
+        hash = window.location.hash.replace(/#/g, '');
+        ref = ref.child(hash);
         callback(true, ref);
       }
     });

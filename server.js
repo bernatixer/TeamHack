@@ -23,11 +23,16 @@ app.get('/auth', function (req, res) {
 })
 
 var rooms = [];
+
+app.get('/get', function (req, res) {
+  console.log(rooms);
+})
 io.on('connection', function (socket) {
   socket.on('getID', function (id) {
     if (rooms.indexOf(id) == -1) {
       rooms.push(id);
       socket.join(id);
+      console.log('id:' + id);
       socket.emit('receiveID', false, id);
     } else {
       socket.emit('receiveID', true, id);
