@@ -84,4 +84,8 @@ hr.small {
     -o-background-size: cover;
 }
 
-.modal-footer
+.info {
+  bottom: 0;
+  right: 0;
+  margin-left: 22px;
+}
