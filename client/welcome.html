@@ -45,15 +45,14 @@
             </button>
             <h4 class="modal-title" id="modalLabel">Create a new Team</h4>
           </div>
-            <form method="post" action="/create">
-              <div class="modal-body">
-                <input type="text" class="form-control" id="name1" placeholder="Enter a team name" aria-describedby="basic-addon3">
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <input type="submit" class="btn btn-primary" value="Create">
-              </div>
-          </form>
+          <div class="modal-body">
+            <input type="text" class="form-control" id="create_name" placeholder="Enter a team name" aria-describedby="basic-addon3">
+            <center><div id="message_c"></div></center>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <input type="submit" class="btn btn-primary" onclick="create()" value="Create">
+          </div>
         </div>
       </div>
     </div>
@@ -69,20 +68,36 @@
             </button>
             <h4 class="modal-title" id="modalLabel">Join an existing Team</h4>
           </div>
-            <form method="post" action="/app">
-              <div class="modal-body">
-                <input type="text" class="form-control" id="hash" placeholder="Write here your team's hash" aria-describedby="basic-addon3">
-                <br />
-                <input type="password" class="form-control" id="password" placeholder="Write here your team's password" aria-describedby="basic-addon3">
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <input type="submit" class="btn btn-primary" value="Join">
-              </div>
-          </form>
+          <div class="modal-body">
+            <input type="text" class="form-control" id="join_name" placeholder="Write here your team's name" aria-describedby="basic-addon3">
+            <center><div id="message_l"></div></center>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <input type="submit" class="btn btn-primary" onclick="login()" value="Join">
+          </div>
         </div>
       </div>
     </div>
     <!-- END MODAL -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+    var socket = io.connect('http://localhost');
+    socket.on('redirect', function (url) {
+      window.location = url;
+    });
+    socket.on('alreadyExist', function () {
+      $('#message_c').text('This team name is already in use!');
+    });
+    socket.on('noExist', function () {
+      $('#message_l').text("This team name doesn't exist!");
+    });
+    function create() {
+      socket.emit('createID', $('#create_name').val());
+    }
+    function login() {
+      socket.emit('joinID', $('#join_name').val());
+    }
+  </script>
   </body>
 </html>

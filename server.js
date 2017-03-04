@@ -21,20 +21,33 @@ app.get('/join', function (req, res) {
   res.sendFile(__dirname + '/client/app.html');
 })
 
-app.post('/create', function (req, res) {
-  res.sendFile(__dirname + '/client/app.html');
-})
-
 app.get('/auth', function (req, res) {
   res.sendFile(__dirname + '/client/auth.html');
 })
 
-var rooms = [];
-
 app.get('/get', function (req, res) {
   console.log(rooms);
 })
+
+var rooms = [];
 io.on('connection', function (socket) {
+  socket.on('createID', function (id) {
+    if (rooms.indexOf(id) == -1) {
+      rooms.push(id);
+      socket.join(id);
+      socket.emit('redirect', 'http://localhost/join#' + id);
+    } else {
+      socket.emit('alreadyExist');
+    }
+  });
+  socket.on('joinID', function (id) {
+    if (rooms.indexOf(id) == -1) {
+      socket.emit('noExist');
+    } else {
+      socket.emit('redirect', 'http://localhost/join#' + id);
+    }
+  });
+
   socket.on('getID', function (id) {
     if (rooms.indexOf(id) == -1) {
       rooms.push(id);
