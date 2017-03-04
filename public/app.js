@@ -9,6 +9,7 @@ function init() {
   firebase.initializeApp(config);
   //// Get Firebase Database reference.
   var firepadRef = getExampleRef();
+  $('.tabs-container').append('<li class="nav-item"><a class="nav-link active" href="#' + firepadRef.key + '">' + 'filename' + '</a></li>')
   $('main').append('<div id="' + firepadRef.key + '"></div>');
   //// Create ACE
   var editor = ace.edit(firepadRef.key);
@@ -26,6 +27,7 @@ function init() {
 }
 
 function spawn() {
+    $('.tabs-container').append('<li class="nav-item"><a class="nav-link active" href="#">' + 'filename' + '</a></li>')
     //// Get Firebase Database reference.
     var firepadRef = getExampleRef();
     //// Create ACE

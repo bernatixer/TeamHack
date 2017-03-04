@@ -42,6 +42,10 @@ html, body {margin: 0; height: 100%; overflow: hidden}
   height: 95vh;
 }
 
+.ace_editor {
+    height: 100%;
+}
+
 .team-list {
     margin-top: 15px;
     width: 100% !important;
