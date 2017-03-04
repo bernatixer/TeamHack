@@ -61,10 +61,6 @@ function getExampleRef() {
   return ref;
 }
 
-$(document).ready(function () {
-})
-
-
 function send(name){
     var message = $('.form-control').val();
     if (message != ''){
