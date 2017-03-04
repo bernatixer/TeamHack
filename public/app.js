@@ -8,7 +8,7 @@ function init() {
   };
   firebase.initializeApp(config);
   //// Get Firebase Database reference.
-  var firepadRef = getExampleRef();
+  var firepadRef = getNewRef();
   $('.tabs-container').append('<li class="nav-item"><a class="nav-link active" href="#' + firepadRef.key + '">' + 'filename' + '</a></li>')
   $('main').append('<div id="' + firepadRef.key + '"></div>');
   //// Create ACE
@@ -29,7 +29,7 @@ function init() {
 function spawn() {
     $('.tabs-container').append('<li class="nav-item"><a class="nav-link active" href="#">' + 'filename' + '</a></li>')
     //// Get Firebase Database reference.
-    var firepadRef = getExampleRef();
+    var firepadRef = getNewRef();
     //// Create ACE
     $('main').append('<div id="' + firepadRef.key + '"></div>');
     var editor = ace.edit(firepadRef.key);
@@ -46,14 +46,19 @@ function spawn() {
 }
 
 // Helper to get hash from end of URL or generate a random one.
-function getExampleRef() {
+function getNewRef() {
   var ref = firebase.database().ref();
   var hash = window.location.hash.replace(/#/g, '');
   if (hash) {
-    ref = ref.child(hash);
+    getTeamID(hash, function (newID) {
+      //window.location = window.location + '#' + newID;
+      console.log('ID: ' + newID);
+      ref.key = newID;
+    });
   } else {
-    ref = ref.push(); // generate unique location.
-    window.location = window.location + '#' + ref.key; // add it as a hash to the URL.
+    ref = ref.child(hash);
+    //ref = ref.push(); // generate unique location.
+    // window.location = window.location + '#' + ref.key; // add it as a hash to the URL.
   }
   if (typeof console !== 'undefined') {
     console.log('Firebase data: ', ref.toString());
