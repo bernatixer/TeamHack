@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     <script src="https://use.fontawesome.com/e4f962f782.js"></script>
+    <script scr="welcome.js"></script>
 
   </head>
   <body>
@@ -25,19 +26,59 @@
             <h1>Welcome to TeamHack</h1>
             <h3>Your online collaborative code editor</h3>
             <br>
-            <a class="btn btn-dark btn-lg" href="/create">Create a Team</a>
-            <a class="btn btn-dark btn-lg" href="/join">Join a Team</a>
-
-            <!-- The Modal -->
-            <div id="myModal" class="modal">
-
-              <!-- Modal content -->
-              <div class="modal-content">
-                <span class="close">&times;</span>
-                <p>Some text in the Modal..</p>
-              </div>
-            </div>
+            <button type="button" class="btn btn-dark btn-lg" data-toggle="modal" data-target="#createTeam">Create a Team</button>
+            <button type="button" class="btn btn-dark btn-lg" data-toggle="modal" data-target="#joinTeam">Join a Team</button>
         </div>
     </header>
+
+    <!-- CREATE MODAL -->
+    <div class="modal fade bd-example-modal-md" id="createTeam" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content modal-md">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+            <h4 class="modal-title" id="modalLabel">Create a new Team</h4>
+          </div>
+            <form method="post" action="/">
+              <div class="modal-body">
+                <input type="email" class="form-control" id="emails" placeholder="Emails separated per commas (example@example.com, ...)" aria-describedby="basic-addon3">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <input type="submit" class="btn btn-primary" value="Create">
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- END MODAL -->
+
+    <!-- JOIN MODAL -->
+    <div class="modal fade bd-example-modal-md" id="joinTeam" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content modal-md">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+            <h4 class="modal-title" id="modalLabel">Join an existing Team</h4>
+          </div>
+            <form method="post" action="/app">
+              <div class="modal-body">
+                <input type="text" class="form-control" id="hash" placeholder="Write here your team's hash" aria-describedby="basic-addon3">
+                <br />
+                <input type="password" class="form-control" id="password" placeholder="Write here your team's password" aria-describedby="basic-addon3">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <input type="submit" class="btn btn-primary" value="Join">
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- END MODAL -->
   </body>
 </html>
