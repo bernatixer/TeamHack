@@ -67,6 +67,20 @@ io.on('connection', function (socket) {
       socket.emit('resExistsID', true);
     }
   });
+  socket.on('existsIDs', function (id, reqID) {
+    if (rooms.indexOf(id) == -1) {
+      // no existeix
+      socket.emit('resExistsIDs', false, false);
+    } else {
+      // si existeix
+      if (rooms.indexOf(reqID) == -1) {
+        rooms.push(id + '_' + reqID);
+        socket.emit('resExistsIDs', true, false);
+      } else {
+        socket.emit('resExistsIDs', true, true);
+      }
+    }
+  });
 });
 
 server.listen(process.env.PORT || 80, function () {

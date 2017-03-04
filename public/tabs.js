@@ -17,9 +17,15 @@ $('#create').click(function (e) {
   var id = $(".nav-tabs").children().length;
   var sugID = $('#basic-url').val();
   getNewRef(sugID, function (created, tab) {
-    var tabId = tab.key;
-    newTab(tab);
-    $(this).closest('li').before('<li class="nav-item" id="' + tabId + '"><a href="#" class="nav-link active" data-toggle="tab">' + sugID + '</a><span>x</span></li>');
-    $('.nav-tabs li:nth-child(' + id + ') a').click();
+    if (created) {
+      console.log('#1')
+      var tabId = tab.key;
+      console.log(tabId);
+      console.log(tab);
+      newTab(tab);
+      console.log('#2')
+      $(this).closest('li').before('<li class="nav-item" id="' + tabId + '"><a href="#" class="nav-link active" data-toggle="tab">' + sugID + '</a><span>x</span></li>');
+      $('.nav-tabs li:nth-child(' + id + ') a').click();
+    }
   });
 });

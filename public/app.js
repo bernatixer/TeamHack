@@ -12,6 +12,8 @@ function init() {
   firebase.initializeApp(config);
 
   var hash = window.location.hash.replace(/#/g, '');
+  $('#main_tab').text(hash);
+  $('#basic-addon3').text(hash + '_');
   socket.emit('existsID', hash);
   socket.on('resExistsID', function (exists) {
     if (exists) {
@@ -20,14 +22,15 @@ function init() {
       ref = ref.child(hash);
       newTab(ref);
     } else {
-      alert('no existeix!!!');
-      // window.location = ip;
+      // alert('no existeix!!!');
+      window.location = ip;
     }
   });
 }
 
 function newTab(firepadRef) {
   //// Create ACEs
+  console.log('E: ' + firepadRef);
   $('#'+firepadRef.key).remove();
   $('main').append('<div id="'+ firepadRef.key +'"></div>');
   var editor = ace.edit(firepadRef.key);
@@ -48,32 +51,24 @@ function getNewRef(requestedID, callback) {
   var ref = firebase.database().ref();
   var hash = window.location.hash.replace(/#/g, '');
   if (hash) {
-    socket.emit('existsID', hash);
-    socket.on('resExistsID', function (exists) {
+    socket.emit('existsIDs', hash, requestedID);
+    socket.on('resExistsIDs', function (exists, req_exists) {
       if (exists) {
-        // obrir
-        callback(false, ref);
+        if (!req_exists) {
+          window.location = ip + '/join#' + requestedID;
+          ref = ref.child(requestedID);
+          callback(true, ref);
+        } else {
+          $('#create_tab').text("This team already exists!");
+          callback(false, ref);
+        }
       } else {
-        alert('ARA SORTIRE');
         window.location = ip;
       }
     });
-
     //ref = ref.push(); // generate unique location.
   } else {
-    socket.emit('getID', requestedID);
-    socket.on('receiveID', function (exists, newID) {
-      if (exists) {
-        alert('Name already exsists');
-        callback(false, ref);
-      } else {
-        window.location = window.location + '#' + requestedID;
-        ref = firebase.database().ref();
-        hash = window.location.hash.replace(/#/g, '');
-        ref = ref.child(hash);
-        callback(true, ref);
-      }
-    });
+    window.location = ip;
   }
   if (typeof console !== 'undefined') {
     // console.log('Firebase data: ', ref.toString());

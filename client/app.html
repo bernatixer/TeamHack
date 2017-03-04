@@ -53,7 +53,7 @@
                                 <div class="input-group">
                                     <input type="text" class="form-control" placeholder="Send..." aria-describedby="sizing-addon1"/>
                                     <span class="input-group-btn" id="sizing-addon1">
-                                        <button class="btn btn-secondary" type="button" onclick="send('Arnau')">Send</button>
+                                        <button class="btn btn-secondary" type="button">Send</button>
                                     </span>
                                 </div>
                             </div>
@@ -64,12 +64,13 @@
             <main class="col-sm-9 editor" id="editor">
                 <nav class="container">
                     <ul class="nav nav-tabs">
-                        <li id="init" class="nav-item tab-item"><a href="#" class="nav-link active" data-toggle="tab">filename</a><span>x</span>
+                        <li id="init" class="nav-item tab-item"><a href="#" id="main_tab" class="nav-link active" data-toggle="tab"></a><span>x</span>
                         </li>
                         <li class="nav-item"><a href="#" class="add nav-link" data-toggle="modal" data-target=".bd-example-modal-sm">+</a>
                         </li>
                     </ul>
                 </nav>
+              </div>
             </main>
         </div>
     </div>
@@ -86,6 +87,7 @@
                     <div class="input-group">
                         <span class="input-group-addon" id="basic-addon3">Filename</span>
                         <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                        <center><div id="create_tab"></div></center>
                     </div>
                 </div>
                 <div class="modal-footer">
