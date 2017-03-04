@@ -12,7 +12,7 @@ function init() {
   firebase.initializeApp(config);
 
   var hash = window.location.hash.replace(/#/g, '');
-  $('#main_tab').text(hash);
+  $('#dropdownMenuButton').text(hash);
   $('#basic-addon3').text(hash + '_');
   socket.emit('existsID', hash);
   socket.on('resExistsID', function (exists) {
@@ -30,8 +30,7 @@ function init() {
 
 function newTab(firepadRef) {
   //// Create ACEs
-  console.log('E: ' + firepadRef);
-  $('#'+firepadRef.key).remove();
+  $('.firepad').remove();
   $('main').append('<div id="'+ firepadRef.key +'"></div>');
   var editor = ace.edit(firepadRef.key);
   editor.setTheme("ace/theme/textmate");
@@ -63,7 +62,7 @@ function getNewRef(requestedID, callback) {
           callback(false, ref);
         }
       } else {
-        alert('hola');
+        alert('#567');
         window.location = ip;
       }
     });
@@ -76,33 +75,23 @@ function getNewRef(requestedID, callback) {
   }
 }
 
-function switchTab(tabID, callback) {
+function switchTab(tabID) {
   var ref = firebase.database().ref();
   var hash = window.location.hash.replace(/#/g, '');
-  if (hash) {
-    socket.emit('existsIDs', hash, requestedID);
-    socket.on('resExistsIDs', function (exists, req_exists) {
-      if (exists) {
-        if (!req_exists) {
-          window.location = ip + '/join#' + hash + '_' + requestedID;
-          ref = ref.child(requestedID);
-          callback(true, ref);
-        } else {
-          $('#create_tab').text("This team already exists!");
-          callback(false, ref);
-        }
-      } else {
-        alert('hola');
-        window.location = ip;
-      }
-    });
-    //ref = ref.push(); // generate unique location.
+  console.log(hash + ' = ' + tabID);
+  var main;
+  if (hash.indexOf('_') == -1) {
+    main = hash + '_';
   } else {
-    window.location = ip;
-  }
-  if (typeof console !== 'undefined') {
-    // console.log('Firebase data: ', ref.toString());
-  }
+    main = hash.substring(0, hash.indexOf('_')) + '_';
+  }/*
+  if (hash.indexOf('_') != -1) {
+    hash = hash.substring(hash.indexOf('_')+1, hash.length);
+  }*/
+  console.log(tabID + ' - ' + main);
+  window.location = ip + '/join#' + main + tabID;
+  ref = ref.child(main + tabID);
+  newTab(ref);
 }
 
 function send(name){
