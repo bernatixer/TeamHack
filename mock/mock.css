@@ -1,0 +1,53 @@
+html, body {margin: 0; height: 100%; overflow: hidden}
+
+
+.bottom-selector {
+    position: fixed;
+    bottom: 0;
+}
+
+.sidebar {
+    height: 100vh;
+    width: 35vh;
+}
+
+.editor {
+    width: 65vh;
+}
+
+dl, ol, ul {
+    margin-top: 15px !important;
+}
+
+.side-list {
+    top:0;
+    bottom:40px;
+    overflow-y: scroll;
+    float: none;
+    width: inherit;
+}
+
+.home-btn {
+    margin-bottom: 15px;
+}
+
+.chat-input {
+    padding-top: 7px;
+}
+
+#editor {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.team-list {
+    margin-top: 15px;
+    width: 100% !important;
+}
+
+.chat {
+    height: 100%;
+}
