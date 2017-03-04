@@ -1,4 +1,4 @@
-function init() {
+function spawn() {
   //// Initialize Firebase.
   var config = {
     apiKey: "AIzaSyB8IH4q1aZtwjZS6liKEul_B0Ie3HouYmc",
@@ -19,6 +19,7 @@ function init() {
   var firepad = Firepad.fromACE(firepadRef, editor, {
     defaultText: '// Showing porno to meeee!!'
   });
+
 }
 // Helper to get hash from end of URL or generate a random one.
 function getExampleRef() {
@@ -35,6 +36,12 @@ function getExampleRef() {
   }
   return ref;
 }
+
+
+$(document).ready(function () {
+    $('.powered-by-firepad').remove();
+})
+
 
 function send(){
     var message = $('.form-control').val();
