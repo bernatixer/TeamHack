@@ -27,6 +27,7 @@ io.on('connection', function (socket) {
   socket.on('getID', function (id) {
     if (rooms.indexOf(id) == -1) {
       rooms.push(id);
+      socket.join(id);
       socket.emit('receiveID', false, id);
     } else {
       socket.emit('receiveID', true, id);
