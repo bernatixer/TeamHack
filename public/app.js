@@ -55,7 +55,7 @@ function getNewRef(requestedID, callback) {
     socket.on('resExistsIDs', function (exists, req_exists) {
       if (exists) {
         if (!req_exists) {
-          window.location = ip + '/join#' + requestedID;
+          window.location = ip + '/join#' + hash + '_' + requestedID;
           ref = ref.child(requestedID);
           callback(true, ref);
         } else {
@@ -63,6 +63,7 @@ function getNewRef(requestedID, callback) {
           callback(false, ref);
         }
       } else {
+        alert('hola');
         window.location = ip;
       }
     });
