@@ -1,41 +1,74 @@
-<!DOCTYPE HTML>
+<!doctype html>
+<!-- See http://www.firepad.io/docs/ for detailed embedding docs. -->
 <html>
-  <head>
-    <link rel="stylesheet" href="acemock.css">
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+<head>
+  <meta charset="utf-8" />
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
 
-    <!-- Ace -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/ace.js"></script>
+  <!-- ACE and its JavaScript mode and theme files -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/ace.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/mode-javascript.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/theme-textmate.js"></script>
 
-    <!-- Firepad -->
-    <link rel="stylesheet" href="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.css" />
-    <script src="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.min.js"></script>
-  </head>
-  <body>
-    <body onload="init()">
-  <div id="firepad"></div>
+  <!-- Firepad -->
+  <link rel="stylesheet" href="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.css" />
+  <script src="https://cdn.firebase.com/libs/firepad/1.4.0/firepad.min.js"></script>
+
+  <style>
+    html { height: 100%; }
+    body { margin: 0; height: 100%; position: relative; }
+    /* Height / width / positioning can be customized for your use case.
+       For demo purposes, we make firepad fill the entire browser. */
+    #firepad-container {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body onload="init()">
+  <div id="firepad-container"></div>
+
   <script>
     function init() {
-      // Initialize Firebase.
-      // TODO: replace with your Firebase project configuration.
+      //// Initialize Firebase.
+      //// TODO: replace with your Firebase project configuration.
       var config = {
         apiKey: "AIzaSyB8IH4q1aZtwjZS6liKEul_B0Ie3HouYmc",
-        authDomain: "teamhack-bd156.firebaseapp.com",
-        databaseURL: "https://teamhack-bd156.firebaseio.com",
+    authDomain: "teamhack-bd156.firebaseapp.com",
+    databaseURL: "https://teamhack-bd156.firebaseio.com"
       };
       firebase.initializeApp(config);
-
-      // Get Firebase Database reference.
-      var firepadRef = firebase.database().ref();
-
-      // Create Ace editor.
-      var editor = ace.edit('firepad');
-
-      // Create Firepad.
-      var firepad = Firepad.fromACE(firepadRef, editor);
+      //// Get Firebase Database reference.
+      var firepadRef = getExampleRef();
+      //// Create ACE
+      var editor = ace.edit("firepad-container");
+      editor.setTheme("ace/theme/textmate");
+      var session = editor.getSession();
+      session.setUseWrapMode(true);
+      session.setUseWorker(false);
+      session.setMode("ace/mode/javascript");
+      //// Create Firepad.
+      var firepad = Firepad.fromACE(firepadRef, editor, {
+        defaultText: '// Showing porno to meeee!!'
+      });
+    }
+    // Helper to get hash from end of URL or generate a random one.
+    function getExampleRef() {
+      var ref = firebase.database().ref();
+      var hash = window.location.hash.replace(/#/g, '');
+      if (hash) {
+        ref = ref.child(hash);
+      } else {
+        ref = ref.push(); // generate unique location.
+        window.location = window.location + '#' + ref.key; // add it as a hash to the URL.
+      }
+      if (typeof console !== 'undefined') {
+        console.log('Firebase data: ', ref.toString());
+      }
+      return ref;
     }
   </script>
 </body>
-  </body>
 </html>
