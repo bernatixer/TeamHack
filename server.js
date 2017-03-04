@@ -11,11 +11,11 @@ app.get('/', function (req, res) {
 })
 
 app.get('/join', function (req, res) {
-  res.sendFile(__dirname + '/client/mock.html');
+  res.sendFile(__dirname + '/client/app.html');
 })
 
 app.get('/create', function (req, res) {
-  res.sendFile(__dirname + '/client/mock.html');
+  res.sendFile(__dirname + '/client/app.html');
 })
 
 app.get('/auth', function (req, res) {
