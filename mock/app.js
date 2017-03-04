@@ -36,10 +36,10 @@ function getExampleRef() {
   return ref;
 }
 
-$(document).ready(function (){
-    for (var i = 0; i < 50; i++){
-        $('.chat-list').append('<li class="media"><img class="d-flex mr-3" src="..." alt="Gege"><div class="media-body">Cras sit amette sollici faucibus.</div></li>');
+function send(){
+    var message = $('.form-control').val();
+    if (message != ''){
+        $('.chat-list').append('<li class="media"><img class="d-flex mr-3" src="" alt="' + 'Arnau' + '"><div class="media-body">' + message + '</div></li>');
     }
-
-
-});
+    $('.form-control').val('');
+}
