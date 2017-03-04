@@ -49,15 +49,6 @@ io.on('connection', function (socket) {
     }
   });
 
-  /*socket.on('getID', function (id) {
-    if (rooms.indexOf(id) == -1) {
-      rooms.push(id);
-      console.log('id:' + id);
-      socket.emit('receiveID', false, id);
-    } else {
-      socket.emit('receiveID', true, id);
-    }
-  });*/
   socket.on('existsID', function (id) {
     if (rooms.indexOf(id) == -1) {
       // no existeix
@@ -74,7 +65,11 @@ io.on('connection', function (socket) {
     } else {
       // si existeix
       if (rooms.indexOf(id + '_' + reqID) == -1) {
-        rooms.push(id + '_' + reqID);
+        if (id.indexOf('_') == -1) {
+          rooms.push(id + '_' + reqID);
+        } else {
+          rooms.push(id.substring(0, id.indexOf('_')) + '_' + reqID);
+        }
         socket.emit('resExistsIDs', true, false);
       } else {
         socket.emit('resExistsIDs', true, true);

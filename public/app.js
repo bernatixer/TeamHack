@@ -76,6 +76,35 @@ function getNewRef(requestedID, callback) {
   }
 }
 
+function switchTab(tabID, callback) {
+  var ref = firebase.database().ref();
+  var hash = window.location.hash.replace(/#/g, '');
+  if (hash) {
+    socket.emit('existsIDs', hash, requestedID);
+    socket.on('resExistsIDs', function (exists, req_exists) {
+      if (exists) {
+        if (!req_exists) {
+          window.location = ip + '/join#' + hash + '_' + requestedID;
+          ref = ref.child(requestedID);
+          callback(true, ref);
+        } else {
+          $('#create_tab').text("This team already exists!");
+          callback(false, ref);
+        }
+      } else {
+        alert('hola');
+        window.location = ip;
+      }
+    });
+    //ref = ref.push(); // generate unique location.
+  } else {
+    window.location = ip;
+  }
+  if (typeof console !== 'undefined') {
+    // console.log('Firebase data: ', ref.toString());
+  }
+}
+
 function send(name){
     var message = $('.form-control').val();
     if (message != ''){
