@@ -9,6 +9,7 @@ html, body {margin: 0; height: 100%; overflow: hidden}
 }
 
 .sidebar {
+    background-color: rgb(200, 200, 200);
     height: 100vh;
     width: 35vh;
 }
@@ -80,4 +81,115 @@ html, body {margin: 0; height: 100%; overflow: hidden}
 }
 .nav-tabs > li:hover > span {
    display: inline-block;
+}
+
+.corkboard{
+  overflow: scroll;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-image: url(img/cb.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: 100% 0%;
+  height: 100vh;
+}
+
+.note{
+  font-family:arial,sans-serif;
+  font-size:100%;
+  background-color: #ffc;
+}
+
+.form-control,
+.form-control:focus{
+    border: 0px;
+    background-color: transparent;
+}
+
+.title {
+  font-size:130%;
+}
+
+.text {
+  display:block;
+  height:9em;
+}
+
+.notelist textarea{
+  resize: none;
+}
+
+.notelist h2,p{
+  font-size:100%;
+  font-weight:normal;
+}
+
+.notelist ul,
+.notelist li{
+  list-style:none;
+}
+
+.notelist ul{
+  overflow:hidden;
+  padding:3em;
+}
+
+.notelist li{
+  margin:1em;
+  float:left;
+}
+
+.notelist h2{
+  font-size:140%;
+  font-weight:bold;
+  padding-bottom:10px;
+}
+
+.note1,
+.note6{
+  -o-transform:rotate(4deg);
+  -webkit-transform:rotate(4deg);
+  -moz-transform:rotate(4deg);
+  position:relative;
+  top:5px;
+  background:#cfc;
+}
+
+.note2,
+.note7{
+  -o-transform:rotate(-3deg);
+  -webkit-transform:rotate(-3deg);
+  -moz-transform:rotate(-3deg);
+  position:relative;
+  top:-5px;
+  background:#ccf;
+}
+
+.note3,
+.note8{
+  -o-transform:rotate(6deg);
+  -webkit-transform:rotate(6deg);
+  -moz-transform:rotate(6deg);
+  position:relative;
+  top:-10px;
+  background:#ffc;
+}
+
+.note4,
+.note9{
+  -o-transform:rotate(-5deg);
+  -webkit-transform:rotate(-5deg);
+  -moz-transform:rotate(-5deg);
+  position:relative;
+  top:10px;
+  background:#fcf;
+}
+
+.note5,
+.note10{
+  -o-transform:rotate(0deg);
+  -webkit-transform:rotate(0deg);
+  -moz-transform:rotate(0deg);
+  position:relative;
+  background:#cff;
 }

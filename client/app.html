@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="app.css">
+
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
 
@@ -21,6 +21,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     <script src="https://use.fontawesome.com/e4f962f782.js"></script>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <link rel="stylesheet" href="app.css">
 
 </head>
 <body onload="init()">
@@ -77,19 +82,49 @@
                         </li>
                     </ul>
                 </nav>-->
-                <button type="button" class="btn btn-info" data-toggle="modal" data-target=".bd-example-modal-sm">+</button>
-                <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dropdown button
+                <div class="dropdown d-flex justify-content-between">
+                  <div>
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target=".bd-example-modal-sm">+</button>
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Dropdown button
+                    </button>
+                  </div>
+                  <button type="button" class="btn btn-info" id="btn_corkboard">
+                    <i class="fa fa-sticky-note-o" aria-hidden="true"></i>
                   </button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="tabs_dropdown">
                     <a class="dropdown-item" href="#">Action</a>
                   </div>
                 </div>
-              </div>
             </main>
-        </div>
+
+            <main class="col-sm-9 corkboard" id="corkboard">
+                <div class="dropdown d-flex justify-content-between">
+                  <button type="button" class="btn btn-info" id="add">Add note</button>
+                  <button type="button" class="btn btn-info" id="btn_editor">
+                    <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                  </button>
+                </div>
+                <div>
+                  <ul class="notelist" id="notelist">
+                    <li id="note0">
+                      <div class="objN note1 draggable ui-widget-content">
+                        <input class="title form-control" type="text" maxlength="18"/>
+                        <textarea class="text form-control"/></textarea>
+                        <div class="d-flex justify-content-between">
+                          <p></p>
+                          <i class="fa fa-arrows" aria-hidden="true"></i>
+                          <button class="fa fa-trash-o" aria-hidden="true" onclick="removeNote('note0')"></button>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+            </main>
+          </div>
     </div>
+
+    <!-- CREATE NEW FILE MODAL -->
     <div class="modal bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
@@ -113,8 +148,11 @@
             </div>
         </div>
     </div>
+    <!-- END MODAL -->
+
     <script src="/socket.io/socket.io.js"></script>
     <script src="app.js" type="text/javascript"></script>
     <script src="tabs.js" type="text/javascript"></script>
+    <script src="corkboard.js" type="text/javascript"></script>
 </body>
 </html>
