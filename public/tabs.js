@@ -1,13 +1,12 @@
 socket.emit('here', { id: window.location.hash.replace(/#/g, '') });
-$('#create').on('click', function () {
-  var sugID = $('#basic-url').val();
-  getNewRef(sugID);
-});
 
-function click() {
-  var sugID = $('#basic-url').val();
-  getNewRef(sugID);
-}
+$('#create').click(function (e) {
+ e.preventDefault();
+ var sugID = $('#basic-url').val();
+ $('#dropdownMenuButton').text(sugID);
+ $('.dropdown-menu').append('<a class="dropdown-item" href="#" onclick="switchTab(\'' + sugID + '\')>' + sugID + '</a>')
+ $('.modal').modal('toggle');
+});
 
 $( "#form_s" ).submit(function( event ) {
   var hash = window.location.hash.replace(/#/g, '');

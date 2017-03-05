@@ -40,10 +40,10 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content modal-md">
           <div class="modal-header">
+            <h4 class="modal-title" id="modalLabel">Create a new Team</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
-            <h4 class="modal-title" id="modalLabel">Create a new Team</h4>
           </div>
           <div class="modal-body">
             <input type="text" class="form-control" id="create_name" placeholder="Enter a team name" aria-describedby="basic-addon3">
@@ -63,10 +63,10 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content modal-md">
           <div class="modal-header">
+            <h4 class="modal-title" id="modalLabel">Join an existing Team</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
-            <h4 class="modal-title" id="modalLabel">Join an existing Team</h4>
           </div>
           <div class="modal-body">
             <input type="text" class="form-control" id="join_name" placeholder="Write here your team's name" aria-describedby="basic-addon3">
@@ -75,6 +75,39 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             <input type="submit" class="btn btn-primary" onclick="login()" value="Join">
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END MODAL -->
+
+    <!-- SCROLLING MODAL -->
+    <div class="modal fade" id="info" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel">INFORMATION</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>
+              TeamHack is an online collaborative text and code edit tool to make teamwork really easy and portable.
+            </p>
+            <img src="/img/createteam.png"/ width="460">
+            <p>
+              To get started you only need an e-mail address and an idea. Click the button that says create a team and you will see that a window appears.
+              Put all your e-mails and click Create a Team. The next thing is to go to your online mail and check the inbox, there will be a link to the website and a password.
+            </p>
+            <img src="/img/jointeam.png"/ width="460">
+            <p>
+              If one of your team members has already created a team you then can join an already existing one. Just click the button that says Join a Team.
+              When the window shows up you can introduce the TeamHack web path and the password to validate yourself.
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>

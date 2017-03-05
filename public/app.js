@@ -1,7 +1,8 @@
 var socket = io.connect('http://localhost');
-socket.on('resExistsIDs', function (data) { // exists, req_exists, ref, hash
+socket.on('resExistsIDs', function (data) { // exists, req_exists, hash
   if (data.exists) {
     if (!data.req_exists) {
+      console.log('gfgff');
       var main;
       if (data.hash.indexOf('_') == -1) {
         main = data.hash;
@@ -9,9 +10,10 @@ socket.on('resExistsIDs', function (data) { // exists, req_exists, ref, hash
         main = data.hash.substring(0, data.hash.indexOf('_'));
       }
       $('#dropdownMenuButton').text(requestedID);
+      var ref = firebase.database().ref();
       window.location = ip + '/join#' + main + '_' + requestedID;
-      data.ref = data.ref.child(requestedID);
-      tab_kr(true, data.ref);
+      ref = ref.child(requestedID);
+      tab_kr(true, ref);
     } else {
       $('#create_tab').text("This team already exists!");
       tab_kr(false, null);
@@ -80,10 +82,9 @@ function newTab(firepadRef) {
 
 // Helper to get hash from end of URL or generate a random one.
 function getNewRef(requestedID) {
-  var ref = firebase.database().ref();
   var hash = window.location.hash.replace(/#/g, '');
   if (hash) {
-    socket.emit('existsIDs', { hash: hash, requestedID: requestedID, ref: ref });
+    socket.emit('existsIDs', { hash: hash, requestedID: requestedID });
     ////////////////////////////////// hwerererererer ///////////////////////////
     ////////////////////////////////// hwerererererer ///////////////////////////
     ////////////////////////////////// hwerererererer ///////////////////////////
