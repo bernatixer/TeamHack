@@ -1,22 +1,20 @@
 var socket = io.connect('http://localhost');
-socket.on('resExistsIDs', function (data) { // exists, req_exists, hash
+socket.on('resExistsIDs', function (data) { // exists, req_exists, hash, requestedID
   if (data.exists) {
     if (!data.req_exists) {
-      console.log('gfgff');
       var main;
       if (data.hash.indexOf('_') == -1) {
         main = data.hash;
       } else {
         main = data.hash.substring(0, data.hash.indexOf('_'));
       }
-      $('#dropdownMenuButton').text(data.hash);
+      $('#dropdownMenuButton').text(data.requestedID);
       var ref = firebase.database().ref();
-      window.location = ip + '/join#' + main + '_' + data.hash;
-      ref = ref.child(data.hash);
-      tab_kr(true, ref);
+      window.location = ip + '/join#' + main + '_' + data.requestedID;
+      ref = ref.child(main + '_' + data.requestedID);
+      tab_kr(ref);
     } else {
       $('#create_tab').text("This team already exists!");
-      tab_kr(false, null);
     }
   } else {
     alert('#567');
@@ -24,13 +22,19 @@ socket.on('resExistsIDs', function (data) { // exists, req_exists, hash
   }
 });
 
-function tab_kr (created, tab) {
-  if (created) {
-    var tabId = tab.key;
-    newTab(tab);
-    $("#tabs_dropdown").append('<a class="dropdown-item" href="#" onclick="switchTab(\'' + tabId + '\')">' + tabId + '</a>');
-    $('.modal').modal('toggle');
+function tab_kr (tab) {
+  var tabId = tab.key;
+  newTab(tab);
+
+  var main;
+  if (tabId.indexOf('_') == -1) {
+    main = tabId;
+  } else {
+    main = tabId.substring(tabId.indexOf('_')+1, tabId.lenght);
   }
+
+  $("#tabs_dropdown").append('<a class="dropdown-item" href="#" onclick="switchTab(\'' + main + '\')">' + main + '</a>');
+  $('.modal').modal('toggle');
 }
 
 socket.on('resExistsID', function (data) { // exists, hash
@@ -84,11 +88,7 @@ function newTab(firepadRef) {
 function getNewRef(requestedID) {
   var hash = window.location.hash.replace(/#/g, '');
   if (hash) {
-    console.log(hash + ' - ' + requestedID);
     socket.emit('existsIDs', { hash: hash, requestedID: requestedID });
-    ////////////////////////////////// hwerererererer ///////////////////////////
-    ////////////////////////////////// hwerererererer ///////////////////////////
-    ////////////////////////////////// hwerererererer ///////////////////////////
     //ref = ref.push(); // generate unique location.
   } else {
     window.location = ip;

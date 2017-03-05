@@ -65,14 +65,12 @@ io.on('connection', function (socket) {
     }
   });
   socket.on('existsIDs', function (data) { // requestedID, hash
-    console.log(data.hash);
     if (data.hash.indexOf('_') != -1) {
       data.hash = data.hash.substring(0, data.hash.indexOf('_'));
     }
-    console.log(data.hash);
     if (rooms.indexOf(data.hash) == -1) {
       // no existeix
-      socket.emit('resExistsIDs', { exists: false, req_exists: false, hash: data.hash });
+      socket.emit('resExistsIDs', { exists: false, req_exists: false, hash: data.hash, requestedID: data.requestedID });
     } else {
       // si existeix
       if (rooms.indexOf(data.hash + '_' + data.requestedID) == -1) {
@@ -81,9 +79,9 @@ io.on('connection', function (socket) {
         } else {
           rooms.push(data.hash.substring(0, data.hash.indexOf('_')) + '_' + data.requestedID);
         }
-        socket.emit('resExistsIDs', { exists: true, req_exists: false, hash: data.hash });
+        socket.emit('resExistsIDs', { exists: true, req_exists: false, hash: data.hash, requestedID: data.requestedID });
       } else {
-        socket.emit('resExistsIDs', { exists: true, req_exists: true, hash: data.hash });
+        socket.emit('resExistsIDs', { exists: true, req_exists: true, hash: data.hash, requestedID: data.requestedID });
       }
     }
   });

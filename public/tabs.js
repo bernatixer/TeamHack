@@ -5,8 +5,6 @@ $('#create').click(function (e) {
  e.preventDefault();
  var sugID = $('#basic-url').val();
  getNewRef(sugID);
- $('#dropdownMenuButton').text(sugID);
- $('.dropdown-menu').append('<a class="dropdown-item" href="#" onclick="switchTab(\'' + sugID + '\')>' + sugID + '</a>')
  $('.modal').modal('toggle');
 });
 
