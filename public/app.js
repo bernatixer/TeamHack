@@ -33,7 +33,7 @@ function tab_kr (tab) {
     main = tabId.substring(tabId.indexOf('_')+1, tabId.lenght);
   }
 
-  $("#tabs_dropdown").append('<a class="dropdown-item" href="#" onclick="switchTab(\'' + main + '\')">' + main + '</a>');
+  $("#tabs_dropdown").append('<a class="dropdown-item" onclick="switchTab(\'' + main + '\')">' + main + '</a>');
   $('.modal').modal('toggle');
 }
 
@@ -63,6 +63,9 @@ function init() {
 
   var hash = window.location.hash.replace(/#/g, '');
   $('#dropdownMenuButton').text(hash);
+  $('#first_item').text(hash);
+  // $('#first_item').attr('href', '/join#' + hash);
+  $('#first_item').attr('onclick', 'switchTab(\'' + hash + '\')');
   $('#basic-addon3').text(hash + '_');
   socket.emit('existsID', { hash: hash });
 }
@@ -102,13 +105,18 @@ function switchTab(tabID) {
   var ref = firebase.database().ref();
   $('#dropdownMenuButton').text(tabID);
   var hash = window.location.hash.replace(/#/g, '');
-  var main;
-  if (hash.indexOf('_') == -1) {
-    main = hash + '_';
+  if (tabID == hash) {
+    window.location = ip + '/join#' + tabID;
+    ref = ref.child(tabID);
   } else {
-    main = hash.substring(0, hash.indexOf('_')) + '_';
+    var main;
+    if (hash.indexOf('_') == -1) {
+      main = hash;
+    } else {
+      main = hash.substring(0, hash.indexOf('_'));
+    }
+    window.location = ip + '/join#' + main + '_' + tabID;
+    ref = ref.child(main + tabID);
   }
-  window.location = ip + '/join#' + main + tabID;
-  ref = ref.child(main + tabID);
   newTab(ref);
 }
