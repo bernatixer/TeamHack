@@ -47,6 +47,7 @@ function newTab(firepadRef) {
 
 // Helper to get hash from end of URL or generate a random one.
 function getNewRef(requestedID, callback) {
+  console.log(requestedID);
   var ref = firebase.database().ref();
   var hash = window.location.hash.replace(/#/g, '');
   if (hash) {
@@ -54,12 +55,19 @@ function getNewRef(requestedID, callback) {
     socket.on('resExistsIDs', function (exists, req_exists) {
       if (exists) {
         if (!req_exists) {
-          window.location = ip + '/join#' + hash + '_' + requestedID;
+          var main;
+          if (hash.indexOf('_') == -1) {
+            main = hash;
+          } else {
+            main = hash.substring(0, hash.indexOf('_'));
+          }
+          $('#dropdownMenuButton').text(requestedID);
+          window.location = ip + '/join#' + main + '_' + requestedID;
           ref = ref.child(requestedID);
           callback(true, ref);
         } else {
           $('#create_tab').text("This team already exists!");
-          callback(false, ref);
+          callback(false, null);
         }
       } else {
         alert('#567');
@@ -77,6 +85,7 @@ function getNewRef(requestedID, callback) {
 
 function switchTab(tabID) {
   var ref = firebase.database().ref();
+  $('#dropdownMenuButton').text(tabID);
   var hash = window.location.hash.replace(/#/g, '');
   console.log(hash + ' = ' + tabID);
   var main;
@@ -84,10 +93,7 @@ function switchTab(tabID) {
     main = hash + '_';
   } else {
     main = hash.substring(0, hash.indexOf('_')) + '_';
-  }/*
-  if (hash.indexOf('_') != -1) {
-    hash = hash.substring(hash.indexOf('_')+1, hash.length);
-  }*/
+  }
   console.log(tabID + ' - ' + main);
   window.location = ip + '/join#' + main + tabID;
   ref = ref.child(main + tabID);
