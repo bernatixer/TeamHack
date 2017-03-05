@@ -49,13 +49,13 @@ io.on('connection', function (socket) {
     }
   });
 
-  socket.on('existsID', function (id) {
+  socket.on('existsID', function (id, ref) {
     if (rooms.indexOf(id) == -1) {
       // no existeix
-      socket.emit('resExistsID', false);
+      socket.emit('resExistsID', false, ref, id);
     } else {
       // si existeix
-      socket.emit('resExistsID', true);
+      socket.emit('resExistsID', true, ref, id);
     }
   });
   socket.on('existsIDs', function (id, reqID, ref,hash) {

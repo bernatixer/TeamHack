@@ -1,51 +1,5 @@
 var socket = io.connect('http://localhost');
-// problema 131
-var ip = 'http://localhost';
-
-function init() {
-  //// Initialize Firebase.
-  var config = {
-    apiKey: "AIzaSyB8IH4q1aZtwjZS6liKEul_B0Ie3HouYmc",
-    authDomain: "teamhack-bd156.firebaseapp.com",
-    databaseURL: "https://teamhack-bd156.firebaseio.com"
-  };
-  firebase.initializeApp(config);
-
-  var hash = window.location.hash.replace(/#/g, '');
-  $('#dropdownMenuButton').text(hash);
-  $('#basic-addon3').text(hash + '_');
-  socket.emit('existsID', hash);
-  socket.on('resExistsID', function (exists) {
-    if (exists) {
-      ref = firebase.database().ref();
-      hash = window.location.hash.replace(/#/g, '');
-      ref = ref.child(hash);
-      newTab(ref);
-    } else {
-      // alert('no existeix!!!');
-      window.location = ip;
-    }
-  });
-}
-
-function newTab(firepadRef) {
-  //// Create ACEs
-  $('.firepad').remove();
-  $('main').append('<div id="'+ firepadRef.key +'"></div>');
-  var editor = ace.edit(firepadRef.key);
-  editor.setTheme("ace/theme/textmate");
-  var session = editor.getSession();
-  session.setUseWrapMode(true);
-  session.setUseWorker(false);
-  session.setMode("ace/mode/javascript");
-  //// Create Firepad.
-  var firepad = Firepad.fromACE(firepadRef, editor, {
-    defaultText: '// Showi meeee!!'
-  });
-  $('.powered-by-firepad').remove();
-}
-
-socket.on('resExistsIDs', function (exists, req_exists, ref, hash) {
+/*socket.on('resExistsIDs', function (exists, req_exists, ref, hash) {
   if (exists) {
     if (!req_exists) {
       var main;
@@ -66,7 +20,54 @@ socket.on('resExistsIDs', function (exists, req_exists, ref, hash) {
     alert('#567');
     window.location = ip;
   }
+});*/
+
+socket.on('resExistsID', function (exists, ref, hash) {
+  if (exists) {
+    var ref = firebase.database().ref();
+    hash = window.location.hash.replace(/#/g, '');
+    ref = ref.child(hash);
+    newTab(ref);
+  } else {
+    // alert('no existeix!!!');
+    window.location = ip;
+  }
 });
+
+// problema 131
+var ip = 'http://localhost';
+
+function init() {
+  //// Initialize Firebase.
+  var config = {
+    apiKey: "AIzaSyB8IH4q1aZtwjZS6liKEul_B0Ie3HouYmc",
+    authDomain: "teamhack-bd156.firebaseapp.com",
+    databaseURL: "https://teamhack-bd156.firebaseio.com"
+  };
+  firebase.initializeApp(config);
+
+  var hash = window.location.hash.replace(/#/g, '');
+  $('#dropdownMenuButton').text(hash);
+  $('#basic-addon3').text(hash + '_');
+  socket.emit('existsID', hash, ref);
+}
+
+function newTab(firepadRef) {
+  //// Create ACEs
+  $('.firepad').remove();
+  $('main').append('<div id="'+ firepadRef.key +'"></div>');
+  var editor = ace.edit(firepadRef.key);
+  editor.setTheme("ace/theme/textmate");
+  var session = editor.getSession();
+  session.setUseWrapMode(true);
+  session.setUseWorker(false);
+  session.setMode("ace/mode/javascript");
+  //// Create Firepad.
+  var firepad = Firepad.fromACE(firepadRef, editor, {
+    defaultText: '// Showi meeee!!'
+  });
+  $('.powered-by-firepad').remove();
+}
 
 // Helper to get hash from end of URL or generate a random one.
 function getNewRef(requestedID, callback) {
