@@ -64,20 +64,23 @@ io.on('connection', function (socket) {
       socket.emit('resExistsID', { exists: true, id: id.hash });
     }
   });
-  socket.on('existsIDs', function (data) { // id, requestedID ,hash
-    console.log('hh');
-    if (rooms.indexOf(data.id) == -1) {
+  socket.on('existsIDs', function (data) { // requestedID, hash
+    console.log(data.hash);
+    if (data.hash.indexOf('_') != -1) {
+      data.hash = data.hash.substring(0, data.hash.indexOf('_'));
+    }
+    console.log(data.hash);
+    if (rooms.indexOf(data.hash) == -1) {
       // no existeix
       socket.emit('resExistsIDs', { exists: false, req_exists: false, hash: data.hash });
     } else {
       // si existeix
-      if (rooms.indexOf(data.id + '_' + data.requestedID) == -1) {
-        if (id.indexOf('_') == -1) {
-          rooms.push(data.id + '_' + data.requestedID);
+      if (rooms.indexOf(data.hash + '_' + data.requestedID) == -1) {
+        if (data.hash.indexOf('_') == -1) {
+          rooms.push(data.hash + '_' + data.requestedID);
         } else {
-          rooms.push(id.substring(0, id.indexOf('_')) + '_' + data.requestedID);
+          rooms.push(data.hash.substring(0, data.hash.indexOf('_')) + '_' + data.requestedID);
         }
-        console.log('hohoho: ' + rooms);
         socket.emit('resExistsIDs', { exists: true, req_exists: false, hash: data.hash });
       } else {
         socket.emit('resExistsIDs', { exists: true, req_exists: true, hash: data.hash });

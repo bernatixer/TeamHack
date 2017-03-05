@@ -9,10 +9,10 @@ socket.on('resExistsIDs', function (data) { // exists, req_exists, hash
       } else {
         main = data.hash.substring(0, data.hash.indexOf('_'));
       }
-      $('#dropdownMenuButton').text(requestedID);
+      $('#dropdownMenuButton').text(data.hash);
       var ref = firebase.database().ref();
-      window.location = ip + '/join#' + main + '_' + requestedID;
-      ref = ref.child(requestedID);
+      window.location = ip + '/join#' + main + '_' + data.hash;
+      ref = ref.child(data.hash);
       tab_kr(true, ref);
     } else {
       $('#create_tab').text("This team already exists!");
@@ -84,6 +84,7 @@ function newTab(firepadRef) {
 function getNewRef(requestedID) {
   var hash = window.location.hash.replace(/#/g, '');
   if (hash) {
+    console.log(hash + ' - ' + requestedID);
     socket.emit('existsIDs', { hash: hash, requestedID: requestedID });
     ////////////////////////////////// hwerererererer ///////////////////////////
     ////////////////////////////////// hwerererererer ///////////////////////////
