@@ -45,35 +45,37 @@ function newTab(firepadRef) {
   $('.powered-by-firepad').remove();
 }
 
+socket.on('resExistsIDs', function (exists, req_exists, ref, hash) {
+  if (exists) {
+    if (!req_exists) {
+      var main;
+      if (hash.indexOf('_') == -1) {
+        main = hash;
+      } else {
+        main = hash.substring(0, hash.indexOf('_'));
+      }
+      $('#dropdownMenuButton').text(requestedID);
+      window.location = ip + '/join#' + main + '_' + requestedID;
+      ref = ref.child(requestedID);
+      callback(true, ref);
+    } else {
+      $('#create_tab').text("This team already exists!");
+      callback(false, null);
+    }
+  } else {
+    alert('#567');
+    window.location = ip;
+  }
+});
+
 // Helper to get hash from end of URL or generate a random one.
 function getNewRef(requestedID, callback) {
   console.log(requestedID);
   var ref = firebase.database().ref();
   var hash = window.location.hash.replace(/#/g, '');
   if (hash) {
-    socket.emit('existsIDs', hash, requestedID);
-    socket.on('resExistsIDs', function (exists, req_exists) {
-      if (exists) {
-        if (!req_exists) {
-          var main;
-          if (hash.indexOf('_') == -1) {
-            main = hash;
-          } else {
-            main = hash.substring(0, hash.indexOf('_'));
-          }
-          $('#dropdownMenuButton').text(requestedID);
-          window.location = ip + '/join#' + main + '_' + requestedID;
-          ref = ref.child(requestedID);
-          callback(true, ref);
-        } else {
-          $('#create_tab').text("This team already exists!");
-          callback(false, null);
-        }
-      } else {
-        alert('#567');
-        window.location = ip;
-      }
-    });
+    socket.emit('existsIDs', hash, requestedID, ref, hash);
+
     //ref = ref.push(); // generate unique location.
   } else {
     window.location = ip;

@@ -58,10 +58,10 @@ io.on('connection', function (socket) {
       socket.emit('resExistsID', true);
     }
   });
-  socket.on('existsIDs', function (id, reqID) {
+  socket.on('existsIDs', function (id, reqID, ref,hash) {
     if (rooms.indexOf(id) == -1) {
       // no existeix
-      socket.emit('resExistsIDs', false, false);
+      socket.emit('resExistsIDs', false, false, ref, hash);
     } else {
       // si existeix
       if (rooms.indexOf(id + '_' + reqID) == -1) {
@@ -70,9 +70,9 @@ io.on('connection', function (socket) {
         } else {
           rooms.push(id.substring(0, id.indexOf('_')) + '_' + reqID);
         }
-        socket.emit('resExistsIDs', true, false);
+        socket.emit('resExistsIDs', true, false, ref, hash);
       } else {
-        socket.emit('resExistsIDs', true, true);
+        socket.emit('resExistsIDs', true, true, ref, hash);
       }
     }
   });

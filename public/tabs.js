@@ -1,5 +1,6 @@
 
-$('#create').click(function (e) {
+$('#create').unbind().click(function (e) {
+  console.log('#00');
   // e.preventDefault();
   var sugID = $('#basic-url').val();
   getNewRef(sugID, function (created, tab) {
