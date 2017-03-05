@@ -31,31 +31,37 @@ app.get('/get', function (req, res) {
 
 var rooms = [];
 io.on('connection', function (socket) {
+  socket.on('here', function (data) {
+    socket.join(data.id);
+  });
+  socket.on('send_message', function (data) {
+    io.to(data.id).emit('receive_message', { message: data.message, id: socket.id });
+  });
   socket.on('createID', function (id) {
-    if (rooms.indexOf(id) == -1) {
-      rooms.push(id);
-      socket.join(id);
-      socket.emit('redirect', 'http://localhost/join#' + id);
+    if (rooms.indexOf(id.url) == -1) {
+      rooms.push(id.url);
+      socket.join(id.url);
+      socket.emit('redirect', { url: 'http://localhost/join#' + id.url });
     } else {
       socket.emit('alreadyExist');
     }
   });
   socket.on('joinID', function (id) {
-    if (rooms.indexOf(id) == -1) {
+    if (rooms.indexOf(id.id) == -1) {
       socket.emit('noExist');
     } else {
-      socket.join(id);
-      socket.emit('redirect', 'http://localhost/join#' + id);
+      socket.join(id.id);
+      socket.emit('redirect', { url: 'http://localhost/join#' + id.id });
     }
   });
 
   socket.on('existsID', function (id) {
-    if (rooms.indexOf(id) == -1) {
+    if (rooms.indexOf(id.hash) == -1) {
       // no existeix
-      socket.emit('resExistsID', false, id);
+      socket.emit('resExistsID', { exists: false, id: id.hash });
     } else {
       // si existeix
-      socket.emit('resExistsID', true, id);
+      socket.emit('resExistsID', { exists: true, id: id.hash });
     }
   });
   socket.on('existsIDs', function (data) { // id, reqID, ref,hash

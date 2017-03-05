@@ -1,17 +1,17 @@
 var socket = io.connect('http://localhost');
-/*socket.on('resExistsIDs', function (data) { // exists, req_exists, ref, hash
-  if (exists) {
-    if (!req_exists) {
+socket.on('resExistsIDs', function (data) { // exists, req_exists, ref, hash
+  if (data.exists) {
+    if (!data.req_exists) {
       var main;
-      if (hash.indexOf('_') == -1) {
-        main = hash;
+      if (data.hash.indexOf('_') == -1) {
+        main = data.hash;
       } else {
-        main = hash.substring(0, hash.indexOf('_'));
+        main = data.hash.substring(0, data.hash.indexOf('_'));
       }
       $('#dropdownMenuButton').text(requestedID);
       window.location = ip + '/join#' + main + '_' + requestedID;
-      ref = ref.child(requestedID);
-      tab_kr(true, ref);
+      data.ref = data.ref.child(requestedID);
+      tab_kr(true, data.ref);
     } else {
       $('#create_tab').text("This team already exists!");
       tab_kr(false, null);
@@ -20,7 +20,7 @@ var socket = io.connect('http://localhost');
     alert('#567');
     window.location = ip;
   }
-});*/
+});
 
 function tab_kr (created, tab) {
   if (created) {
@@ -31,11 +31,11 @@ function tab_kr (created, tab) {
   }
 }
 
-socket.on('resExistsID', function (exists, hash) {
-  if (exists) {
+socket.on('resExistsID', function (data) { // exists, hash
+  if (data.exists) {
     var ref = firebase.database().ref();
-    hash = window.location.hash.replace(/#/g, '');
-    ref = ref.child(hash);
+    data.hash = window.location.hash.replace(/#/g, '');
+    ref = ref.child(data.hash);
     newTab(ref);
   } else {
     // alert('no existeix!!!');
@@ -58,7 +58,7 @@ function init() {
   var hash = window.location.hash.replace(/#/g, '');
   $('#dropdownMenuButton').text(hash);
   $('#basic-addon3').text(hash + '_');
-  socket.emit('existsID', hash);
+  socket.emit('existsID', { hash: hash });
 }
 
 function newTab(firepadRef) {
@@ -83,7 +83,7 @@ function getNewRef(requestedID) {
   var ref = firebase.database().ref();
   var hash = window.location.hash.replace(/#/g, '');
   if (hash) {
-    socket.emit('existsIDs', { hash: hash, requestedID: requestedID, ref: ref, hash: hash });
+    socket.emit('existsIDs', { hash: hash, requestedID: requestedID, ref: ref });
     ////////////////////////////////// hwerererererer ///////////////////////////
     ////////////////////////////////// hwerererererer ///////////////////////////
     ////////////////////////////////// hwerererererer ///////////////////////////
@@ -100,23 +100,13 @@ function switchTab(tabID) {
   var ref = firebase.database().ref();
   $('#dropdownMenuButton').text(tabID);
   var hash = window.location.hash.replace(/#/g, '');
-  console.log(hash + ' = ' + tabID);
   var main;
   if (hash.indexOf('_') == -1) {
     main = hash + '_';
   } else {
     main = hash.substring(0, hash.indexOf('_')) + '_';
   }
-  console.log(tabID + ' - ' + main);
   window.location = ip + '/join#' + main + tabID;
   ref = ref.child(main + tabID);
   newTab(ref);
-}
-
-function send(name){
-    var message = $('.form-control').val();
-    if (message != ''){
-        $('.chat-list').append('<li class="media"><img class="d-flex mr-3" src="" alt="' + name + '"><div class="media-body">' + message + '</div></li>');
-    }
-    $('.form-control').val('');
 }

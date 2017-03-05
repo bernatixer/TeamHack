@@ -84,7 +84,7 @@
     <script>
     var socket = io.connect('http://localhost');
     socket.on('redirect', function (url) {
-      window.location = url;
+      window.location = url.url;
     });
     socket.on('alreadyExist', function () {
       $('#message_c').text('This team name is already in use!');
@@ -93,10 +93,10 @@
       $('#message_l').text("This team name doesn't exist!");
     });
     function create() {
-      socket.emit('createID', $('#create_name').val());
+      socket.emit('createID', { url: $('#create_name').val() });
     }
     function login() {
-      socket.emit('joinID', $('#join_name').val());
+      socket.emit('joinID', { id: $('#join_name').val() });
     }
   </script>
   </body>
