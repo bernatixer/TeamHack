@@ -105,11 +105,16 @@ function switchTab(tabID) {
   var ref = firebase.database().ref();
   $('#dropdownMenuButton').text(tabID);
   var hash = window.location.hash.replace(/#/g, '');
-  if (tabID == hash) {
+  var main;
+  if (hash.indexOf('_') == -1) {
+    main = hash;
+  } else {
+    main = hash.substring(0, hash.indexOf('_'));
+  }
+  if (tabID == main) {
     window.location = ip + '/join#' + tabID;
     ref = ref.child(tabID);
   } else {
-    var main;
     if (hash.indexOf('_') == -1) {
       main = hash;
     } else {
