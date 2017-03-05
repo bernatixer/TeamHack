@@ -5,7 +5,7 @@ $('#create').click(function (e) {
  e.preventDefault();
  var sugID = $('#basic-url').val();
  getNewRef(sugID);
- $('.modal').modal('toggle');
+ // $('.modal').modal('toggle');
 });
 
 $( "#form_s" ).submit(function( event ) {
