@@ -49,30 +49,30 @@ io.on('connection', function (socket) {
     }
   });
 
-  socket.on('existsID', function (id, ref) {
+  socket.on('existsID', function (id) {
     if (rooms.indexOf(id) == -1) {
       // no existeix
-      socket.emit('resExistsID', false, ref, id);
+      socket.emit('resExistsID', false, id);
     } else {
       // si existeix
-      socket.emit('resExistsID', true, ref, id);
+      socket.emit('resExistsID', true, id);
     }
   });
-  socket.on('existsIDs', function (id, reqID, ref,hash) {
-    if (rooms.indexOf(id) == -1) {
+  socket.on('existsIDs', function (data) { // id, reqID, ref,hash
+    if (rooms.indexOf(data.id) == -1) {
       // no existeix
-      socket.emit('resExistsIDs', false, false, ref, hash);
+      socket.emit('resExistsIDs', false, false, data.ref, data.hash);
     } else {
       // si existeix
-      if (rooms.indexOf(id + '_' + reqID) == -1) {
+      if (rooms.indexOf(data.id + '_' + data.reqID) == -1) {
         if (id.indexOf('_') == -1) {
-          rooms.push(id + '_' + reqID);
+          rooms.push(data.id + '_' + data.reqID);
         } else {
-          rooms.push(id.substring(0, id.indexOf('_')) + '_' + reqID);
+          rooms.push(id.substring(0, id.indexOf('_')) + '_' + data.reqID);
         }
-        socket.emit('resExistsIDs', true, false, ref, hash);
+        socket.emit('resExistsIDs', true, false, data.ref, data.hash);
       } else {
-        socket.emit('resExistsIDs', true, true, ref, hash);
+        socket.emit('resExistsIDs', true, true, data.ref, data.hash);
       }
     }
   });

@@ -1,5 +1,5 @@
 var socket = io.connect('http://localhost');
-/*socket.on('resExistsIDs', function (exists, req_exists, ref, hash) {
+/*socket.on('resExistsIDs', function (data) { // exists, req_exists, ref, hash
   if (exists) {
     if (!req_exists) {
       var main;
@@ -11,10 +11,10 @@ var socket = io.connect('http://localhost');
       $('#dropdownMenuButton').text(requestedID);
       window.location = ip + '/join#' + main + '_' + requestedID;
       ref = ref.child(requestedID);
-      callback(true, ref);
+      tab_kr(true, ref);
     } else {
       $('#create_tab').text("This team already exists!");
-      callback(false, null);
+      tab_kr(false, null);
     }
   } else {
     alert('#567');
@@ -22,7 +22,16 @@ var socket = io.connect('http://localhost');
   }
 });*/
 
-socket.on('resExistsID', function (exists, ref, hash) {
+function tab_kr (created, tab) {
+  if (created) {
+    var tabId = tab.key;
+    newTab(tab);
+    $("#tabs_dropdown").append('<a class="dropdown-item" href="#" onclick="switchTab(\'' + tabId + '\')">' + tabId + '</a>');
+    $('.modal').modal('toggle');
+  }
+}
+
+socket.on('resExistsID', function (exists, hash) {
   if (exists) {
     var ref = firebase.database().ref();
     hash = window.location.hash.replace(/#/g, '');
@@ -49,7 +58,7 @@ function init() {
   var hash = window.location.hash.replace(/#/g, '');
   $('#dropdownMenuButton').text(hash);
   $('#basic-addon3').text(hash + '_');
-  socket.emit('existsID', hash, ref);
+  socket.emit('existsID', hash);
 }
 
 function newTab(firepadRef) {
@@ -70,13 +79,14 @@ function newTab(firepadRef) {
 }
 
 // Helper to get hash from end of URL or generate a random one.
-function getNewRef(requestedID, callback) {
-  console.log(requestedID);
+function getNewRef(requestedID) {
   var ref = firebase.database().ref();
   var hash = window.location.hash.replace(/#/g, '');
   if (hash) {
-    socket.emit('existsIDs', hash, requestedID, ref, hash);
-
+    socket.emit('existsIDs', { hash: hash, requestedID: requestedID, ref: ref, hash: hash });
+    ////////////////////////////////// hwerererererer ///////////////////////////
+    ////////////////////////////////// hwerererererer ///////////////////////////
+    ////////////////////////////////// hwerererererer ///////////////////////////
     //ref = ref.push(); // generate unique location.
   } else {
     window.location = ip;
