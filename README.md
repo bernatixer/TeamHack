@@ -18,7 +18,7 @@ We need a firebase API [key](https://firebase.google.com/), once you have one, y
 
 Well done, je just need to open the server, just run:
 ```
-node index.js
+node server.js
 ```
 
 ## Licence MIT
