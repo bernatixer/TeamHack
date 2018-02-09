@@ -16,7 +16,7 @@ We have to download the dependencies, `npm install`
 
 We need a firebase API [key](https://firebase.google.com/), once you have one, you can put it on te file 'public/app.js' at line 58, you also need to modify lines 59 and 60.
 
-Well done, je just need to open the server, just run:
+Well done, we just need to open the server, just run:
 ```
 node server.js
 ```
